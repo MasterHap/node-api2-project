@@ -96,13 +96,13 @@ router.put("/:id", (req, res) => {
 router.get("/:id/comments", (req, res) => {
   Post.findPostComments(req.params.id)
     .then(postId => {
-      if (postId) {
-        res.status(200).json(postId);
-      } else {
+      if (postId === 0) {
         res.status(404).json({
           message: "The post with the specified ID does not exist",
         });
-      }
+      } if (postId) {
+        res.status(200).json(postId);
+      } 
     })
     .catch(err => {
       console.log(err);
