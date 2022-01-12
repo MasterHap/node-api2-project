@@ -49,7 +49,7 @@ router.post("/", (req, res) => {
     .catch(err => {
       console.log(err);
       res
-        .status(500)
+        .status(400)
         .json({
           message: "There was an error while saving the post to the database",
         });
@@ -58,9 +58,9 @@ router.post("/", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   Post.remove(req.params.id)
-    .then(count => {
-      if (count > 0) {
-        res.status(200).json({ message: "The post has been nuked" });
+    .then(id => {
+      if (id) {
+        res.status(200).json(id);
       } else {
         res
           .status(404)
@@ -94,10 +94,10 @@ router.put("/:id", (req, res) => {
 });
 
 router.get("/:id/comments", (req, res) => {
-  Post.findPostComments(req.params.postId)
-    .then(comment => {
-      if (comment.length > 0) {
-        res.status(200).json(comment);
+  Post.findPostComments(req.params.id)
+    .then(postId => {
+      if (postId) {
+        res.status(200).json(postId);
       } else {
         res.status(404).json({
           message: "The post with the specified ID does not exist",
