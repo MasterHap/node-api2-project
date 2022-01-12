@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   Post.find(req.query)
-    .then((posts) => {
+    .then(posts => {
       res.status(200).json(posts);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res
         .status(500)
@@ -18,16 +18,16 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   Post.findById(req.params.id)
-    .then((post) => {
+    .then(post => {
       if (post) {
         res.status(200).json(post);
       } else {
         res
           .status(404)
-          .json({ message: "The post information could not be retrieved" });
+          .json({ message: 'does not exist/i' });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res
         .status(500)
@@ -37,7 +37,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   Post.insert(req.body)
-    .then((post) => {
+    .then(post => {
       if (post) {
         res.status(201).json(post);
       } else {
@@ -46,7 +46,7 @@ router.post("/", (req, res) => {
           .json({ message: "Please provide title and contents for the post" });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res
         .status(500)
@@ -58,7 +58,7 @@ router.post("/", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   Post.remove(req.params.id)
-    .then((count) => {
+    .then(count => {
       if (count > 0) {
         res.status(200).json({ message: "The post has been nuked" });
       } else {
@@ -67,7 +67,7 @@ router.delete("/:id", (req, res) => {
           .json({ message: "The post with the specified ID does not exist" });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res.status(500).json({ message: "The post could not be removed" });
     });
@@ -76,7 +76,7 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   const changes = req.body;
   Post.update(req.params.id, changes)
-    .then((post) => {
+    .then(post => {
       if (post) {
         res.status(200).json(post);
       } else {
@@ -85,7 +85,7 @@ router.put("/:id", (req, res) => {
           .json({ message: "The post with the specified ID does not exist" });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res
         .status(500)
@@ -95,7 +95,7 @@ router.put("/:id", (req, res) => {
 
 router.get("/:id/comments", (req, res) => {
   Post.findPostComments(req.params.postId)
-    .then((comment) => {
+    .then(comment => {
       if (comment.length > 0) {
         res.status(200).json(comment);
       } else {
@@ -104,7 +104,7 @@ router.get("/:id/comments", (req, res) => {
         });
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       res
         .status(500)
