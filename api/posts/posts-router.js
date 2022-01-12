@@ -20,19 +20,23 @@ router.get('/:id', (req, res) => {
         if (post) {
             res.status(200).json(post);
         } else {
-            res.status(404).json({ message: 'Adopter not found' });
+            res.status(404).json({ message: "The post information could not be retrieved" });
         }
     })
     .catch(err => {
         console.log(err);
-        res.status(500).json({ message: 'Error retrieving the post' })
+        res.status(500).json({ message: 'The post information could not be retrieved' })
     })
 })
 
 router.post('/', (req, res) => {
     Post.insert(req.body)
     .then(post => {
+        if (post) {
         res.status(201).json(post)
+        } else {
+            res.status(400).json({ message: "Please provide title and contents for the post" })
+        }
     })
     .catch(err => {
         console.log(err)
@@ -72,7 +76,7 @@ router.put('/:id', (req, res) => {
 })
 
 router.get('/:id/comments', (req, res) => {
-    Post.findCommentById(req.params.id)
+    Post.findPostComments(req.postId)
     .then(comment => {
         if (comment.length > 0) {
             res.status(200).json(comment)
